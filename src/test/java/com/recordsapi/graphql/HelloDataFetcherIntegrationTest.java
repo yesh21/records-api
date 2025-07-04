@@ -1,6 +1,7 @@
 package com.recordsapi.graphql;
 
 import com.netflix.graphql.dgs.DgsQueryExecutor;
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +16,11 @@ class HelloDataFetcherIntegrationTest {
 
     @Test
     void helloQuery_ReturnsGreeting() {
+        @Language("GraphQL")
+        String query = "query { hello }";
         String result = dgsQueryExecutor.executeAndExtractJsonPath(
-                "{ hello }", "data.hello"
+                query,
+                "data.hello"
         );
         assertThat(result).isEqualTo("Hello, Intern!");
     }

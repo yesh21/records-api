@@ -7,13 +7,8 @@ class HelloDataFetcherTest {
 
     @Test
     void hello_ReturnsGreeting() {
-        // Arrange
         HelloDataFetcher fetcher = new HelloDataFetcher();
-
-        // Act
         String result = fetcher.hello();
-
-        // Assert
         assertThat(result).isEqualTo("Hello, Intern!");
     }
 }

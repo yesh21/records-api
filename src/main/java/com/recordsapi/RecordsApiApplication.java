@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class RecordsApiApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(RecordsApiApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(RecordsApiApplication.class, args);
+    }
 }
