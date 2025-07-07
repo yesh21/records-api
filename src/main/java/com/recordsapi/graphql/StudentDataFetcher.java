@@ -25,6 +25,15 @@ public class StudentDataFetcher {
 
     @DgsMutation
     public Student createStudent(@InputArgument String name, @InputArgument Integer age, @InputArgument String grade) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name must not be empty");
+        }
+        if (age == null || age < 5 || age > 100) {
+            throw new IllegalArgumentException("Age must be between 5 and 100");
+        }
+        if (grade == null || grade.trim().isEmpty()) {
+            throw new IllegalArgumentException("Grade must not be empty");
+        }
         return studentService.createStudent(name, age, grade);
     }
 }
