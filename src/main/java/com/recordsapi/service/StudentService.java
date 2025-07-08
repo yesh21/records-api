@@ -1,5 +1,6 @@
 package com.recordsapi.service;
 
+import com.recordsapi.exception.StudentNotFoundException;
 import com.recordsapi.model.StudentEntity;
 import com.recordsapi.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class StudentService {
     }
 
     public StudentEntity getStudentById(Long id) {
-        return studentRepository.findById(id).orElse(null);
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
     public StudentEntity createStudent(String name, int age, String grade ) {

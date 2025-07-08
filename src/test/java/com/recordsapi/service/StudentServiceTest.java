@@ -1,7 +1,9 @@
 package com.recordsapi.service;
 
+import com.recordsapi.exception.StudentNotFoundException;
 import com.recordsapi.model.StudentEntity;
 import com.recordsapi.repository.StudentRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class StudentServiceTest {
@@ -50,11 +54,14 @@ class StudentServiceTest {
 
     @Test
     void getStudentById_ShouldReturnNullIfNotFound() {
+        long nonExistentStudentId = 3333L;
         StudentEntity savedStudent = new StudentEntity(1L, "Anand", 32, "C");
         when(studentRepository.save(any(StudentEntity.class))).thenReturn(savedStudent);
         when(studentRepository.findById(1L)).thenReturn(Optional.of(savedStudent));
-        StudentEntity student = studentService.getStudentById(3333L);
-        assertThat(student).isNull();
+        Exception exception = assertThrows(StudentNotFoundException.class, () -> {
+            studentService.getStudentById(nonExistentStudentId);
+        });
+        assertEquals("Student not found with id: " + nonExistentStudentId, exception.getMessage());
     }
 
     @Test
