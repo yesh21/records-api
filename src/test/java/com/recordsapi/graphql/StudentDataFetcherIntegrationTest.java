@@ -1,6 +1,6 @@
 package com.recordsapi.graphql;
 
-import com.recordsapi.model.Student;
+import com.recordsapi.model.StudentEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +18,7 @@ public class StudentDataFetcherIntegrationTest {
     @LocalServerPort
     int port;
 
-    private String createdStudentId;
+    private Long createdStudentId;
 
     @BeforeEach
     void setUp() {
@@ -39,10 +39,10 @@ public class StudentDataFetcherIntegrationTest {
             }
             """;
 
-        Student created = graphQlTester.document(createMutation)
+        StudentEntity created = graphQlTester.document(createMutation)
                 .execute()
                 .path("createStudent")
-                .entity(Student.class)
+                .entity(StudentEntity.class)
                 .get();
 
         createdStudentId = created.getId();
@@ -65,7 +65,7 @@ public class StudentDataFetcherIntegrationTest {
         graphQlTester.document(query)
                 .execute()
                 .path("allStudents")
-                .entityList(Student.class)
+                .entityList(StudentEntity.class)
                 .satisfies(students -> {
                     assertThat(students).isNotEmpty();
                 });
@@ -88,7 +88,7 @@ public class StudentDataFetcherIntegrationTest {
         graphQlTester.document(query)
                 .execute()
                 .path("studentById")
-                .entity(Student.class)
+                .entity(StudentEntity.class)
                 .satisfies(student -> {
                     assertThat(student.getId()).isEqualTo(createdStudentId);
                     assertThat(student.getName()).isEqualTo("Rockstar");
@@ -114,7 +114,7 @@ public class StudentDataFetcherIntegrationTest {
         graphQlTester.document(mutation)
                 .execute()
                 .path("createStudent")
-                .entity(Student.class)
+                .entity(StudentEntity.class)
                 .satisfies(student -> {
                     assertThat(student.getName()).isEqualTo("Rockstar");
                     assertThat(student.getAge()).isEqualTo(20);

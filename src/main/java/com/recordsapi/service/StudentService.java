@@ -1,28 +1,36 @@
 package com.recordsapi.service;
 
-import com.recordsapi.model.Student;
+import com.recordsapi.exception.StudentNotFoundException;
+import com.recordsapi.model.StudentEntity;
+import com.recordsapi.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
 public class StudentService {
-    private final List<Student> students = new ArrayList<>();
-    private int idCounter = 1;
 
-    public List<Student>  getAllStudents() {
-        return students;
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+    public List<StudentEntity>  getAllStudents() {
+        return studentRepository.findAll();
     }
 
-    public Student getStudentById(String id) {
-        return students.stream()
-                .filter(s -> s.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public StudentEntity getStudentById(Long id) {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
-    public Student createStudent(String name, int age, String grade ) {
-        Student newStudent = new Student(String.valueOf(idCounter++), name, age, grade);
-        students.add(newStudent);
-        return newStudent;
+    public StudentEntity createStudent(String name, int age, String grade ) {
+        StudentEntity student = StudentEntity.builder()
+                .name(name)
+                .age(age)
+                .grade(grade)
+                .build();
+        return studentRepository.save(student);
     }
 }

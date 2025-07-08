@@ -1,50 +1,80 @@
 package com.recordsapi.service;
 
-import com.recordsapi.model.Student;
+import com.recordsapi.exception.StudentNotFoundException;
+import com.recordsapi.model.StudentEntity;
+import com.recordsapi.repository.StudentRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 class StudentServiceTest {
+    @Mock
+    private StudentRepository studentRepository;
+
+    @InjectMocks
     private StudentService studentService;
 
     @BeforeEach
     void setUp() {
-        studentService = new StudentService();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void getCreateStudent_ShouldAddAndReturnStudent() {
-        Student student = studentService.createStudent("Banty", 10, "C");
-        assertThat(student.getId()).isEqualTo("1");
+        StudentEntity savedStudent = new StudentEntity(1L, "Banty", 10, "C");
+        when(studentRepository.save(any(StudentEntity.class))).thenReturn(savedStudent);
+        when(studentRepository.findAll()).thenReturn(List.of(savedStudent));
+        StudentEntity student = studentService.createStudent("Banty", 10, "C");
+        assertThat(student.getId()).isEqualTo(1L);
         assertThat(student.getName()).isEqualTo("Banty");
         assertThat(student.getAge()).isEqualTo(10);
         assertThat(student.getGrade()).isEqualTo("C");
-        List<Student> allStudents = studentService.getAllStudents();
+        List<StudentEntity> allStudents = studentService.getAllStudents();
         assertThat(allStudents).containsExactly(student);
     }
 
     @Test
     void getStudentById_ShouldReturnCorrectStudent() {
-        Student student2 = studentService.createStudent("Anand", 32, "C");
-        Student found = studentService.getStudentById(student2.getId());
-        assertThat(found).isEqualTo(student2);
+        StudentEntity savedStudent = new StudentEntity(1L, "Anand", 32, "C");
+        when(studentRepository.save(any(StudentEntity.class))).thenReturn(savedStudent);
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(savedStudent));
+        StudentEntity student = studentService.createStudent("Anand", 32, "C");
+        StudentEntity found = studentService.getStudentById(1L);
+        assertThat(found).isEqualTo(student);
     }
 
     @Test
     void getStudentById_ShouldReturnNullIfNotFound() {
-        Student result = studentService.getStudentById("3333");
-        assertThat(result).isNull();
+        long nonExistentStudentId = 3333L;
+        StudentEntity savedStudent = new StudentEntity(1L, "Anand", 32, "C");
+        when(studentRepository.save(any(StudentEntity.class))).thenReturn(savedStudent);
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(savedStudent));
+        Exception exception = assertThrows(StudentNotFoundException.class, () -> {
+            studentService.getStudentById(nonExistentStudentId);
+        });
+        assertEquals("Student not found with id: " + nonExistentStudentId, exception.getMessage());
     }
 
     @Test
     void getAllStudents_ShouldReturnAllCreatedStudents() {
-        Student student1 = studentService.createStudent("Banty", 10, "C");
-        Student student2 = studentService.createStudent("Anand", 32, "E");
-        List<Student> students = studentService.getAllStudents();
+        StudentEntity savedStudent1 = new StudentEntity(1L, "Banty", 10, "C");
+        StudentEntity savedStudent2 = new StudentEntity(2L, "Anand", 32, "E");
+        when(studentRepository.save(any(StudentEntity.class)))
+                .thenReturn(savedStudent1)
+                .thenReturn(savedStudent2);
+        when(studentRepository.findAll()).thenReturn(List.of(savedStudent1, savedStudent2));
+        StudentEntity student1 = studentService.createStudent("Banty", 10, "C");
+        StudentEntity student2 = studentService.createStudent("Anand", 32, "E");
+        List<StudentEntity> students = studentService.getAllStudents();
         assertThat(students).containsExactly(student1, student2);
     }
 }
