@@ -26,7 +26,7 @@ class HelloDataFetcherIntegrationTest {
     }
 
     @Test
-    void helloQuery_ReturnsGreeting() {
+    void getHelloQuery_ShouldReturnGreeting() {
         // language=GraphQL
         String query = """
             query {

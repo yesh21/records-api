@@ -17,7 +17,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void createStudent_ShouldAddAndReturnStudent() {
+    void getCreateStudent_ShouldAddAndReturnStudent() {
         Student student = studentService.createStudent("Banty", 10, "C");
         assertThat(student.getId()).isEqualTo("1");
         assertThat(student.getName()).isEqualTo("Banty");

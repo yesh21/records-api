@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StudentTest {
 
     @Test
-    void allArgsConstructorAndGetters_ShouldInitializeAndReturnAllFields() {
+    void getAllArgsConstructorAndGetters_ShouldInitializeAndReturnAllFields() {
         Student student = new Student("1", "Rockstar", 20, "A");
         assertThat(student.getId()).isEqualTo("1");
         assertThat(student.getName()).isEqualTo("Rockstar");

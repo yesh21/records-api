@@ -49,7 +49,7 @@ public class StudentDataFetcherIntegrationTest {
     }
 
     @Test
-    void allStudentsQuery_ReturnsListOfStudents() {
+    void getAllStudentsQuery_ShouldReturnListOfStudents() {
         // language=GraphQL
         String query = """
             query {
@@ -72,7 +72,7 @@ public class StudentDataFetcherIntegrationTest {
     }
 
     @Test
-    void studentByIdQuery_ReturnsStudent() {
+    void getStudentByIdQuery_ShouldReturnStudent() {
         // language=GraphQL
         String query = String.format("""
             query {
@@ -98,7 +98,7 @@ public class StudentDataFetcherIntegrationTest {
     }
 
     @Test
-    void createStudentMutation_CreatesAndReturnsStudent() {
+    void getCreateStudentMutation_ShouldCreateAndReturnStudent() {
         // language=GraphQL
         String mutation = """
             mutation {
