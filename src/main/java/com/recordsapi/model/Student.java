@@ -1,15 +1,24 @@
 package com.recordsapi.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
+@Table(name = "students")
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Builder
 public class Student {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
+
     private int age;
+
+    @Column(nullable = false)
     private String grade;
 }

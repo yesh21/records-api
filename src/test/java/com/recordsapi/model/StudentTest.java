@@ -8,8 +8,8 @@ class StudentTest {
 
     @Test
     void getAllArgsConstructorAndGetters_ShouldInitializeAndReturnAllFields() {
-        Student student = new Student("1", "Rockstar", 20, "A");
-        assertThat(student.getId()).isEqualTo("1");
+        Student student = new Student(1L, "Rockstar", 20, "A");
+        assertThat(student.getId()).isEqualTo(1L);
         assertThat(student.getName()).isEqualTo("Rockstar");
         assertThat(student.getAge()).isEqualTo(20);
         assertThat(student.getGrade()).isEqualTo("A");

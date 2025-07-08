@@ -18,7 +18,7 @@ public class StudentDataFetcherIntegrationTest {
     @LocalServerPort
     int port;
 
-    private String createdStudentId;
+    private Long createdStudentId;
 
     @BeforeEach
     void setUp() {

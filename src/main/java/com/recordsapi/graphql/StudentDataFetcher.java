@@ -22,7 +22,7 @@ public class StudentDataFetcher {
     }
 
     @DgsQuery
-    public Student studentById(@InputArgument String id) {
+    public Student studentById(@InputArgument Long id) {
         return studentService.getStudentById(id);
     }
 
