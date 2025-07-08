@@ -3,15 +3,18 @@ package com.recordsapi.graphql;
 import com.netflix.graphql.dgs.*;
 import com.recordsapi.model.Student;
 import com.recordsapi.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.recordsapi.validation.StudentValidator;
 
 import java.util.List;
 
 @DgsComponent
 public class StudentDataFetcher {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
+
+    public StudentDataFetcher(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @DgsQuery
     public List<Student> allStudents() {
@@ -25,15 +28,7 @@ public class StudentDataFetcher {
 
     @DgsMutation
     public Student createStudent(@InputArgument String name, @InputArgument Integer age, @InputArgument String grade) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name must not be empty");
-        }
-        if (age == null || age < 5 || age > 100) {
-            throw new IllegalArgumentException("Age must be between 5 and 100");
-        }
-        if (grade == null || grade.trim().isEmpty()) {
-            throw new IllegalArgumentException("Grade must not be empty");
-        }
+        StudentValidator.validateStudentInput(name, age, grade);
         return studentService.createStudent(name, age, grade);
     }
 }

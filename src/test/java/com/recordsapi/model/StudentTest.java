@@ -28,23 +28,5 @@ class StudentTest {
         assertThat(student.getAge()).isEqualTo(18);
         assertThat(student.getGrade()).isEqualTo("B");
     }
-
-    @Test
-    void testEqualsAndHashCode() {
-        Student student1 = new Student("1", "Anand", 20, "A");
-        Student student2 = new Student("1", "Anand", 20, "A");
-        Student student3 = new Student("2", "Banty", 18, "B");
-
-        assertThat(student1).isEqualTo(student2);
-        assertThat(student1).hasSameHashCodeAs(student2);
-        assertThat(student1).isNotEqualTo(student3);
-    }
-
-    @Test
-    void testToString() {
-        Student student = new Student("1", "David", 23, "A");
-        String toString = student.toString();
-        assertThat(toString).contains("David").contains("23").contains("A");
-    }
 }
 
