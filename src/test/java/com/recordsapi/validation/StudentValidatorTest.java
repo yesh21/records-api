@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class StudentValidatorTest {
 
     @Test
-    void testValidInput() {
+    void ValidInput_ShouldNotThrowException() {
         assertDoesNotThrow(() ->
                 StudentValidator.validateStudentInput("John", 18, "A")
         );
     }
 
     @Test
-    void testNullName() {
+    void NullName_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput(null, 18, "A")
         );
@@ -21,7 +21,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testEmptyName() {
+    void EmptyName_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("   ", 18, "A")
         );
@@ -29,7 +29,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testNullAge() {
+    void NullAge_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("John", null, "A")
         );
@@ -37,7 +37,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testNegativeAge() {
+    void NegativeAge_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("John", -1, "A")
         );
@@ -45,7 +45,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testZeroAge() {
+    void ZeroAge_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("John", 0, "A")
         );
@@ -53,7 +53,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testNullGrade() {
+    void NullGrade_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("John", 18, null)
         );
@@ -61,7 +61,7 @@ class StudentValidatorTest {
     }
 
     @Test
-    void testEmptyGrade() {
+    void EmptyGrade_ShouldThrowIllegalArgumentException() {
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
                 StudentValidator.validateStudentInput("John", 18, "   ")
         );
