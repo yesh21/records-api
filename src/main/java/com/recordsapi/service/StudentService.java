@@ -1,6 +1,6 @@
 package com.recordsapi.service;
 
-import com.recordsapi.model.Student;
+import com.recordsapi.model.StudentEntity;
 import com.recordsapi.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,16 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-    public List<Student>  getAllStudents() {
+    public List<StudentEntity>  getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(Long id) {
+    public StudentEntity getStudentById(Long id) {
         return studentRepository.findById(id).orElse(null);
     }
 
-    public Student createStudent(String name, int age, String grade ) {
-        Student student = Student.builder()
+    public StudentEntity createStudent(String name, int age, String grade ) {
+        StudentEntity student = StudentEntity.builder()
                 .name(name)
                 .age(age)
                 .grade(grade)
