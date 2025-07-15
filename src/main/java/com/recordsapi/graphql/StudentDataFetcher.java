@@ -3,7 +3,6 @@ package com.recordsapi.graphql;
 import com.netflix.graphql.dgs.*;
 import com.recordsapi.model.StudentEntity;
 import com.recordsapi.service.StudentService;
-import com.recordsapi.validation.StudentValidator;
 
 import java.util.List;
 
@@ -28,7 +27,6 @@ public class StudentDataFetcher {
 
     @DgsMutation
     public StudentEntity createStudent(@InputArgument String name, @InputArgument Integer age, @InputArgument String grade) {
-        StudentValidator.validateStudentInput(name, age, grade);
         return studentService.createStudent(name, age, grade);
     }
 }
